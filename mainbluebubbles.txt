@@ -1,0 +1,424 @@
+package com.cfcompany.www.bluebubbles;
+
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+//import android.view.GestureDetector.OnGestureListener;
+
+import java.util.Random;
+
+
+
+
+public class MainActivity extends AppCompatActivity implements GestureDetector.OnGestureListener {
+
+    Random rand;
+    int[][] matrica={{1,2,3},{4,5,6},{7,8,0}};
+    int[][] resenje={{1,2,3},{4,5,6},{7,8,0}};
+
+
+    boolean exp=false;
+    boolean std=false;
+    boolean longpress=false;
+
+
+
+
+    int xnull,ynull;
+    int moves=0;
+
+
+
+
+
+
+    ImageView cube1 = (ImageView)findViewById(R.id.cube1);
+    ImageView cube2 = (ImageView)findViewById(R.id.cube2);
+    ImageView cube3 = (ImageView)findViewById(R.id.cube3);
+    ImageView cube4 = (ImageView)findViewById(R.id.cube4);
+    ImageView cube5 = (ImageView)findViewById(R.id.cube5);
+    ImageView cube6 = (ImageView)findViewById(R.id.cube6);
+    ImageView cube7 = (ImageView)findViewById(R.id.cube7);
+    ImageView cube8 = (ImageView)findViewById(R.id.cube8);
+    ImageView cube9 = (ImageView)findViewById(R.id.cube9);
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+
+       /* Random rand = new Random();
+        int x;
+        int y;
+
+
+         x= rand.nextInt(50) + 1;
+        y=rand.nextInt(50) + 1;*/
+
+        RelativeLayout layout = (RelativeLayout)findViewById(R.id.relativelayout);
+
+
+
+
+
+        GestureDetector detector=new GestureDetector(this,this);
+
+
+
+
+        /* for(int i=0;i<10;i++)
+        {*/
+           /* final ImageView image = new ImageView(this);
+            image.setLayoutParams(new android.view.ViewGroup.LayoutParams(x,y));
+            image.setMaxHeight(50);
+            image.setMaxWidth(50);
+
+            // Adds the view to the layout
+            layout.addView(image);*/
+
+
+
+        //final ImageView ballon= (ImageView)findViewById(R.id.blueballon);
+
+
+       /* image.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                 image.setVisibility(View.INVISIBLE);
+
+
+            }
+        });*/
+
+
+
+
+    }
+
+
+    @Override
+    public boolean onDown(MotionEvent e) {
+
+        if(longpress){
+            longpress=false;
+            updateCube(matrica);
+
+
+        }
+        return false;
+    }
+
+    @Override
+    public void onShowPress(MotionEvent e) {
+
+    }
+
+    @Override
+    public boolean onSingleTapUp(MotionEvent e) {
+        return false;
+    }
+
+    @Override
+    public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+          if(e1.getY()-e2.getY()>50) {
+              movedown(matrica, xnull, ynull, 2);
+              updateCube(matrica);
+              moves++;
+          }
+        if(e2.getY()-e1.getY()>50) {
+            moveUp(matrica, xnull, ynull);
+            updateCube(matrica);
+            moves++;
+        }
+        if(e1.getX()-e2.getX()>50) {
+            moveLeft(matrica, xnull, ynull);
+            updateCube(matrica);
+            moves++;
+        }
+
+        if(e2.getX()-e1.getX()>50) {
+            moveRight(matrica, xnull, ynull, 2);
+            updateCube(matrica);
+            moves++;
+
+        }
+
+        return false;
+    }
+
+    @Override
+    public void onLongPress(MotionEvent e) {
+      updateCube(resenje);
+        longpress=true;
+    }
+
+    @Override
+    public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+        return false;
+    }
+
+    void updateCube(int[][] matrica){
+
+        int[] niz={0,1,2,3,4,5,6,7,8};
+        for (int i=0;i<3;i++)
+            for (int j=0;j<3;j++)
+                niz[i*3+j]=matrica[i][j];
+
+
+        for(int i=1;i<=9;i++){
+            switch(i){
+
+                case 1: if (niz[i-1] <=3){
+                    if(niz[i-1]==0) cube1.setImageResource(R.drawable.zelenatacka);
+                    else cube1.setImageResource(R.drawable.plava);
+                }
+                else if (niz[i-1]<=6)
+                    cube1.setImageResource(R.drawable.crvena);
+                else cube1.setImageResource(R.drawable.zelena);
+                    break;
+
+                case 2: if (niz[i-1] <=3){
+                    if(niz[i-1]==0) cube2.setImageResource(R.drawable.zelenatacka);
+                    else cube2.setImageResource(R.drawable.plava);
+                }
+                else if (niz[i-1]<=6)
+                    cube2.setImageResource(R.drawable.crvena);
+                else cube2.setImageResource(R.drawable.zelena);
+                    break;
+
+
+                case 3: if (niz[i-1] <=3){
+                    if(niz[i-1]==0) cube3.setImageResource(R.drawable.zelenatacka);
+                    else cube3.setImageResource(R.drawable.plava);
+                }
+                else if (niz[i-1]<=6)
+                    cube3.setImageResource(R.drawable.crvena);
+                else cube3.setImageResource(R.drawable.zelena);
+                    break;
+
+
+
+                case 4: if (niz[i-1] <=3){
+                    if(niz[i-1]==0) cube4.setImageResource(R.drawable.zelenatacka);
+                    else cube4.setImageResource(R.drawable.plava);
+                }
+                else if (niz[i-1]<=6)
+                    cube4.setImageResource(R.drawable.crvena);
+                else cube4.setImageResource(R.drawable.zelena);
+                    break;
+
+
+
+                case 5: if (niz[i-1] <=3){
+                    if(niz[i-1]==0) cube5.setImageResource(R.drawable.zelenatacka);
+                    else cube5.setImageResource(R.drawable.plava);
+                }
+                else if (niz[i-1]<=6)
+                    cube5.setImageResource(R.drawable.crvena);
+                else cube5.setImageResource(R.drawable.zelena);
+                    break;
+
+                case 6: if (niz[i-1] <=3){
+                    if(niz[i-1]==0) cube6.setImageResource(R.drawable.zelenatacka);
+                    else cube6.setImageResource(R.drawable.plava);
+                }
+                else if (niz[i-1]<=6)
+                    cube6.setImageResource(R.drawable.crvena);
+                else cube6.setImageResource(R.drawable.zelena);
+                    break;
+
+
+                case 7: if (niz[i-1] <=3){
+                    if(niz[i-1]==0) cube7.setImageResource(R.drawable.zelenatacka);
+                    else cube7.setImageResource(R.drawable.plava);
+                }
+                else if (niz[i-1]<=6)
+                    cube7.setImageResource(R.drawable.crvena);
+                else cube7.setImageResource(R.drawable.zelena);
+                    break;
+
+
+
+                case 8: if (niz[i-1] <=3){
+                    if(niz[i-1]==0) cube8.setImageResource(R.drawable.zelenatacka);
+                    else cube8.setImageResource(R.drawable.plava);
+                }
+                else if (niz[i-1]<=6)
+                    cube8.setImageResource(R.drawable.crvena);
+                else cube8.setImageResource(R.drawable.zelena);
+                    break;
+
+                case 9: if (niz[i-1] <=3){
+                    if(niz[i-1]==0) cube9.setImageResource(R.drawable.zelenatacka);
+                    else cube9.setImageResource(R.drawable.plava);
+                }
+                else if (niz[i-1]<=6)
+                    cube9.setImageResource(R.drawable.crvena);
+                else cube9.setImageResource(R.drawable.zelena);
+                    break;
+
+            }
+
+        }
+
+    }//UPDATECUBE
+
+
+
+    //KRETANJA
+    void moveLeft(int[][] matrica,int xnull,int ynull){
+        if(ynull!=0){
+            matrica[xnull][ynull]=matrica[xnull][ynull-1];
+            matrica[xnull][ynull-1]=0;
+            ynull--;
+        }
+    };
+    void moveRight(int[][] matrica,int xnull,int ynull,int board){
+        if(ynull < board){
+            matrica[xnull][ynull]=matrica[xnull][ynull+1];
+            matrica[xnull][ynull+1]=0;
+            ynull++;
+        }
+    };
+    void moveUp(int[][] matrica,int xnull,int ynull){
+        if(xnull!=0 ){
+            matrica[xnull][ynull]=matrica[xnull-1][ynull];
+            matrica[xnull-1][ynull+1]=0;
+            xnull--;
+        }
+    };
+    void movedown(int[][] matrica,int xnull,int ynull,int board){
+        if(xnull < board){
+            matrica[xnull][ynull]=matrica[xnull+1][ynull];
+            matrica[xnull+1][ynull]=0;
+            xnull++;
+        }
+    };
+
+    boolean issolved(int[][] matrica,int[][] resenje,boolean std,boolean exp){
+        int[][] ulaz={{1,2,3},{4,5,6},{7,8,0}};
+        int[][] izlaz={{1,2,3},{4,5,6},{7,8,0}};
+
+
+        for(int i=0;i<3;i++)
+            for (int j=0;j<3;j++){
+                switch(matrica[i][j]){
+                    case 0: ulaz[i][j]=3;
+                        break;
+                    case 7: ulaz[i][j]=3;
+                        break;
+                    case 8: ulaz[i][j]=3;
+                        break;
+
+                    case 1: ulaz[i][j]=1;
+                        break;
+                    case 2:ulaz[i][j]=1;
+                        break;
+                    case 3:ulaz[i][j]=1;
+                        break;
+
+                    case 4: ulaz[i][j]=2;
+                        break;
+                    case 5: ulaz[i][j]=2;
+                        break;
+                    case 6:ulaz[i][j]=2;
+                        break;
+
+                }
+            }
+
+
+        if (std){
+            boolean rows=true;
+            boolean cols=true;
+
+            for(int i=0;i<3;i++)
+                if((ulaz[i][0]!=ulaz[i][1])|| (ulaz[i][2]!=ulaz[i][1])) rows=false;
+
+            for(int i=0;i<3;i++)
+                if((ulaz[0][i]!=ulaz[1][i])|| (ulaz[1][i]!=ulaz[2][i])) cols=false;
+            return cols || rows;
+        }
+
+        if(exp){
+
+            for(int i=0;i<3;i++)
+                for (int j=0;j<3;j++){
+                    switch(resenje[i][j]){
+                        case 0: ulaz[i][j]=3;
+                            break;
+                        case 7: ulaz[i][j]=3;
+                            break;
+                        case 8: ulaz[i][j]=3;
+                            break;
+
+                        case 1: ulaz[i][j]=1;
+                            break;
+                        case 2:ulaz[i][j]=1;
+                            break;
+                        case 3:ulaz[i][j]=1;
+                            break;
+
+                        case 4: ulaz[i][j]=2;
+                            break;
+                        case 5: ulaz[i][j]=2;
+                            break;
+                        case 6:ulaz[i][j]=2;
+                            break;
+                    }
+                }
+
+
+
+
+            for(int i=0;i<3;i++)
+                for (int j=0;j<3;j++)
+                    if (ulaz[i][j]!=izlaz[i][j]) return false;
+
+            return true;
+        }
+
+        return false;
+
+
+    }//issolved
+
+    void randinit(int[][] matrica,int xnull,int ynull){
+
+        int niz []={0,8,6,1,4,7,3,2,5};
+        for(int i=0;i<9;i++);
+
+        for(int i=8;i>=0;i--){
+            int t=rand.nextInt(8);
+            int temp=niz[t];
+            niz[t]=niz[i];
+            niz[i]=temp;
+        }
+
+        for(int i=0;i<3;i++)
+            for(int j=0;j<3;j++){
+                matrica[i][j]=niz[i*3+j];
+                if(matrica[i][j]==0){
+                    xnull=i;
+                    ynull=j;
+                }
+            }
+        return;
+    }//randinit
+
+
+
+
+
+
+
+
+};
+
+
+
